@@ -1,6 +1,7 @@
 import type { Document, Types } from "mongoose";
 
 export interface UserProps  {
+   _id?: any; 
   email: string;
   password: string;
   name?: string;
