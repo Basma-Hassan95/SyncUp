@@ -6,12 +6,12 @@ import { useRouter } from 'expo-router'
 
 const SplashScreen = () => {
   
- const router = useRouter();
-  useEffect(() => {
-    setTimeout(() => {
-      router.replace('/(auth)/welcome');
-    }, 1500);
-  })
+//  const router = useRouter();
+//   useEffect(() => {
+//     setTimeout(() => {
+//       router.replace('/(auth)/welcome');
+//     }, 1500);
+//   })
   return (
     <View style={styles.container}>
       <StatusBar barStyle={'light-content'} backgroundColor={colors.neutral900}

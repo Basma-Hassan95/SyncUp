@@ -12,6 +12,7 @@ import { useRef } from 'react'
 import { useRouter } from 'expo-router'
 import Button from '@/components/Button'
 import { Alert } from 'react-native'
+import { useAuth } from '@/contexts/authContext'
 
 
 const Register = () => {
@@ -19,13 +20,27 @@ const Register = () => {
   const nameRef = useRef("")
   const emailRef= useRef("")
   const passwordRef= useRef("")
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+
+  const {signUp} = useAuth()
 
   const handleSubmit = async  () => {
     if(!emailRef.current || !passwordRef.current || !nameRef.current){
       Alert.alert('Signup', 'Please fill all the fields')
       return;
+    }
+
+    try{
+       
+      setIsLoading(true);
+      await signUp(emailRef.current, passwordRef.current, nameRef.current, "")
+
+    }catch(error:any){
+      Alert.alert("Registration Error:", error.message )
+    } finally{
+      setIsLoading(false);
+
     }
     // good to go
 
