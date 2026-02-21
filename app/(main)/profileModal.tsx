@@ -12,6 +12,9 @@ import Typo from '@/components/Typo'
 import { useEffect } from 'react'
 import { useAuth } from '@/contexts/authContext'
 import { UserDataProps } from '@/types'
+import { Button } from '@react-navigation/elements'
+import Input from '@/components/Input' 
+
 
 
 const ProfileModal = () => {
@@ -70,6 +73,32 @@ const ProfileModal = () => {
 
                    />
                 </View>
+                <View style={styles.inputContainer}>
+                   <Typo style={{paddingLeft: spacingX._10}}>Name</Typo>
+                   <Input
+                   value={userData.name}
+                   containerStyle={{
+                    borderColor: colors.neutral350,
+                    paddingLeft: spacingX._20,
+                    // backgroundColor: colors.neutral300,
+                   }}
+                   onChangeText={(value)=> setUserData({...userData, name:value})}
+                  //  editable={false}
+
+                   />
+                </View>
+              </View>
+
+              <View style={styles.footer}>
+                <Button style={{
+                  backgroundColor: colors.rose,
+                  height: verticalScale(56),
+                  width: verticalScale(56),
+                }}>
+                      
+                      <Icons.SignOut size={verticalScale(30)} color={colors.white} weight="bold" />
+                </Button>
+
               </View>
              </ScrollView>
      </View>
