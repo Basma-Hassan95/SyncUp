@@ -4,6 +4,7 @@ import { AvatarProps } from '@/types'
 import { verticalScale } from '@/utils/styling'
 import { colors, radius } from '@/constants/theme'
 import {Image} from 'expo-image';
+import { getAvatarPath } from '@/services/imageService'
 
 const Avatar = ({uri, size= 40, style, isGroup = false}: AvatarProps) => {
   return (
@@ -12,7 +13,7 @@ const Avatar = ({uri, size= 40, style, isGroup = false}: AvatarProps) => {
     ]}>
       <Image
       style={{flex:1}}
-      source={uri}
+      source={getAvatarPath(uri, isGroup)}
       contentFit='cover'
       transition={100}
       />
