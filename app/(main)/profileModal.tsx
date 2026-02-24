@@ -1,25 +1,28 @@
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { colors, spacingX, spacingY } from '@/constants/theme'
 import { scale, verticalScale } from '@/utils/styling'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import Header from '@/components/Header'
 import BackButton from '@/components/BackButton'
-import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated'
 import Avatar from '@/components/Avatar'
 import * as Icons from 'phosphor-react-native'
 import Typo from '@/components/Typo'
 import { useEffect } from 'react'
 import { useAuth } from '@/contexts/authContext'
 import { UserDataProps } from '@/types'
-import { Button } from '@react-navigation/elements'
 import Input from '@/components/Input' 
+import Button from '@/components/Button'
+import { useRouter} from 'expo-router'
+import { Alert } from 'react-native'
 
 
 
 const ProfileModal = () => {
    
-  const {user} = useAuth();
+  const {user, signOut} = useAuth();
+  const [loading, setloading] = useState(false);
+  const router = useRouter()
 
   const [userData, setUserData] = useState<UserDataProps>({
     name:"",
@@ -39,6 +42,40 @@ const ProfileModal = () => {
 
   }, [user])
 
+
+  const handleLogout = async () => {
+        router.back();
+        await signOut();
+  }
+
+   const showLogoutAlert = () =>{
+    Alert.alert("Confirm", "Are your sure you want to logout?", [
+      {
+        text: "Cancel",
+        onPress:()=>console.log('cancel logout'),
+        style: 'cancel'
+      },
+      {
+        text: "Logout",
+        onPress: () => handleLogout(),
+        style: 'destructive'
+      }
+    ])
+  }
+
+
+  const onSubmit = () => {
+
+    let {name, avatar} = userData;
+    if(!name.trim()){
+      Alert.alert('User', "please enter your name");
+      return;
+    }
+
+    //good to go 
+  }
+
+ 
   return (
     <ScreenWrapper isModal={true} >
      <View style={styles.container}>
@@ -90,13 +127,27 @@ const ProfileModal = () => {
               </View>
 
               <View style={styles.footer}>
-                <Button style={{
+
+                {
+                  !loading && (
+                      <Button style={{
                   backgroundColor: colors.rose,
                   height: verticalScale(56),
                   width: verticalScale(56),
-                }}>
+                }}
+                onPress={showLogoutAlert}
+                >
                       
                       <Icons.SignOut size={verticalScale(30)} color={colors.white} weight="bold" />
+                </Button>
+
+                  )
+                }
+                
+
+                <Button style={{flex:1}} onPress={onSubmit} loading={loading}>
+                  <Typo color={colors.black} fontWeight={"700"}>Update</Typo>
+
                 </Button>
 
               </View>
